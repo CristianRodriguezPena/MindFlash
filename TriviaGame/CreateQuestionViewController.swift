@@ -32,6 +32,7 @@ class CreateQuestionViewController: UIViewController {
     @IBAction func addButtonTapped(_ sender: Any) {
         if questionTextField.text != "" && optionATextField.text != "" && optionBTextField.text != "" && optionCTextField.text != "" && optionDTextField.text != "" {
             GuessViewController.questionList.append(Question.init(question: questionTextField.text!, options: [optionATextField.text!, optionBTextField.text!, optionCTextField.text!, optionDTextField.text!], correctAnswer: correctOption.selectedSegmentIndex + 1))
+                self.dismiss(animated: true)
         }
     }
     

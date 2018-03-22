@@ -125,5 +125,14 @@ class GuessViewController: UIViewController {
         showQuestion(randomNumber(GuessViewController.questionList.filter {$0.answeredCorrectly == nil}.count))
     }
     
+    @IBAction func ResetButtonTapped(_ sender: Any) {
+        for i in GuessViewController.questionList.filter({$0.answeredCorrectly != nil}) {
+            i.answeredCorrectly = nil
+        }
+        
+        score = 0
+        showQuestion(randomNumber(GuessViewController.questionList.filter {$0.answeredCorrectly == nil}.count))
+    }
+    
 }
 
