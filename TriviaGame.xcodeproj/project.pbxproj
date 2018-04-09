@@ -15,6 +15,7 @@
 		A440C5B2205C59EA00563C6B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A440C5B0205C59EA00563C6B /* LaunchScreen.storyboard */; };
 		A440C5BA205DD83B00563C6B /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = A440C5B9205DD83B00563C6B /* Question.swift */; };
 		A440C5BE206046CB00563C6B /* CreateQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A440C5BD206046CB00563C6B /* CreateQuestionViewController.swift */; };
+		A45C85932061813A00E6515A /* QuestionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A45C85922061813A00E6515A /* QuestionManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		A440C5B3205C59EA00563C6B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A440C5B9205DD83B00563C6B /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		A440C5BD206046CB00563C6B /* CreateQuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateQuestionViewController.swift; sourceTree = "<group>"; };
+		A45C85922061813A00E6515A /* QuestionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 				A440C5B0205C59EA00563C6B /* LaunchScreen.storyboard */,
 				A440C5B3205C59EA00563C6B /* Info.plist */,
 				A440C5AB205C59EA00563C6B /* TriviaGame.xcdatamodeld */,
+				A45C85922061813A00E6515A /* QuestionManager.swift */,
 			);
 			path = TriviaGame;
 			sourceTree = "<group>";
@@ -150,6 +153,7 @@
 				A440C5BE206046CB00563C6B /* CreateQuestionViewController.swift in Sources */,
 				A440C5AD205C59EA00563C6B /* TriviaGame.xcdatamodeld in Sources */,
 				A440C5A5205C59EA00563C6B /* AppDelegate.swift in Sources */,
+				A45C85932061813A00E6515A /* QuestionManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
