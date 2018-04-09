@@ -18,13 +18,16 @@ class GuessViewController: UIViewController {
     @IBOutlet weak var question: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
     
+    let colors = [ #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1), #colorLiteral(red: 1, green: 0.5781051517, blue: 0, alpha: 1), #colorLiteral(red: 0.9994240403, green: 0.9855536819, blue: 0, alpha: 1), #colorLiteral(red: 0.5563425422, green: 0.9793455005, blue: 0, alpha: 1), #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1), #colorLiteral(red: 0, green: 0.9810667634, blue: 0.5736914277, alpha: 1), #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 1), #colorLiteral(red: 0, green: 0.5898008943, blue: 1, alpha: 1), #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1), #colorLiteral(red: 0.5818830132, green: 0.2156915367, blue: 1, alpha: 1), #colorLiteral(red: 1, green: 0.2527923882, blue: 1, alpha: 1), #colorLiteral(red: 1, green: 0.1857388616, blue: 0.5733950138, alpha: 1),]
+    
     public static var questionList = [Question]()
     var currentCorrectAnswer :String! {
         return GuessViewController.questionList.filter({$0.question == question.text!})[0].correctAnswer
     }
+    
     var score = 0 {
         didSet {
-            scoreLabel.text = "Score : \(score)"
+            scoreLabel.text = "Score : \(GuessViewController.questionList.filter({$0.answeredCorrectly == true}).count)"
         }
     }
     
@@ -38,7 +41,7 @@ class GuessViewController: UIViewController {
         addAQuestion.layer.cornerRadius = addAQuestion.frame.height * 0.15
         reset.layer.cornerRadius = reset.frame.height * 0.15
         addPreloadedQuestions()
-        showQuestion(randomNumber(GuessViewController.questionList.filter {$0.answeredCorrectly == nil}.count))
+        showRandomQuestion()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,47 +66,45 @@ class GuessViewController: UIViewController {
         GuessViewController.questionList.append(Question.init(question: "Mexican tortillas were originally made from the grain of which plant?", options: ["Mushroom","Wheat","Potatoes","Corn"], correctAnswer: 4))
     }
     
-    func optionManager(_ number : Int, _ text : String?) -> String? {
-
-        
-        if text == nil {
-            switch number {
-            case 1:
-                return optionOne.titleLabel?.text!
-            case 2:
-                return optionTwo.titleLabel?.text!
-            case 3:
-                return optionThree.titleLabel?.text!
-            case 4:
-                return optionFour.titleLabel?.text!
-            default:
-                return "Something when wrong checking the options"
-            }
+    func resetQuestions() {
+        for question in GuessViewController.questionList {
+            question.answeredCorrectly = nil
         }
-        
-        switch number {
-        case 1:
-            optionOne.setTitle(text, for: .normal)
-        case 2:
-            optionTwo.setTitle(text, for: .normal)
-        case 3:
-            optionThree.setTitle(text, for: .normal)
-        case 4:
-            optionFour.setTitle(text, for: .normal)
-        default:
-            print("Something when wrong changing the options")
-        }
-        return nil
+        //GuessViewController.questionList.map { $0.answeredCorrectly = nil }
+        showRandomQuestion()
     }
     
-    func showQuestion(_ questionNumber: Int) {
-        let currentQuestion = GuessViewController.questionList.filter({$0.answeredCorrectly == nil})[questionNumber]
-        question.text = currentQuestion.question
-        var avaliableOptions = currentQuestion.options
-        for i in 1...4 {
-            let randomOption = randomNumber(avaliableOptions.count)
-            optionManager(i, avaliableOptions[randomOption])
-            avaliableOptions.remove(at: randomOption)
+    func optionHandler(_ number: Int) -> UIButton {
+        switch number {
+        case 1:
+            return optionOne
+        case 2:
+            return optionTwo
+        case 3:
+            return optionThree
+        default:
+            return optionFour
+        }
+    }
+    
+    func showRandomQuestion() {
+        if GuessViewController.questionList.filter({$0.answeredCorrectly == nil}).count == 0 {
+            let alert = UIAlertController(title: "Finished", message: "You scored \(score)/\(GuessViewController.questionList.count)", preferredStyle: .alert)
+            let action1 = UIAlertAction(title: "Reset", style: .default) { (action) in
+                self.resetQuestions()
+            }
+            alert.addAction(action1)
+            present(alert, animated: true, completion: nil)
+        } else {
+            let currentQuestion = GuessViewController.questionList.filter({$0.answeredCorrectly == nil})[randomNumber(GuessViewController.questionList.filter({$0.answeredCorrectly == nil}).count)]
+            
+            question.text = currentQuestion.question
+            let randomColorNumber = randomNumber(colors.count - 1 - 4)
+            let optionList = currentQuestion.options
+            for i in 1...4 {
+                optionHandler(i).backgroundColor = colors[randomColorNumber + i]
+                optionHandler(i).setTitle(optionList[(randomColorNumber + i) % 4], for: .normal)
+            }
         }
     }
     
@@ -112,26 +113,31 @@ class GuessViewController: UIViewController {
     }
     
     @IBAction func optionTapped(_ sender: UIButton) {
-        GuessViewController.questionList.filter({$0.answeredCorrectly == nil}).filter({$0.correctAnswer == currentCorrectAnswer})[0].answeredCorrectly = false
+        let currentQuestion = GuessViewController.questionList.filter({$0.answeredCorrectly == nil}).filter({$0.question == question.text!})[0]
+        currentQuestion.answeredCorrectly = false
         
-        if optionManager(sender.tag, nil) == currentCorrectAnswer {
-            GuessViewController.questionList.filter({$0.correctAnswer == currentCorrectAnswer})[0].answeredCorrectly = true
-            score += 1
+        if optionHandler(sender.tag).titleLabel?.text! == currentCorrectAnswer {
+            currentQuestion.answeredCorrectly = true
+            score = 0
+            let alert = UIAlertController(title: "Yay!!!", message: "\(currentCorrectAnswer!) is the correct answer", preferredStyle: .actionSheet)
+            let action1 = UIAlertAction(title: "Thank you!!", style: .default) { (action) in
+                self.showRandomQuestion()
+            }
+            alert.addAction(action1)
+            present(alert, animated: true, completion: nil)
+        } else {
+            let alert = UIAlertController(title: "Wrong!!", message: "\(currentCorrectAnswer!) is the correct answer", preferredStyle: .actionSheet)
+            let action1 = UIAlertAction(title: "Ok...", style: .default) { (action) in
+                self.showRandomQuestion()
+            }
+            alert.addAction(action1)
+            present(alert, animated: true, completion: nil)
         }
-        if GuessViewController.questionList.filter({$0.answeredCorrectly == nil}).count == 0 {
-            exit(0)
-        }
-        
-        showQuestion(randomNumber(GuessViewController.questionList.filter {$0.answeredCorrectly == nil}.count))
     }
     
     @IBAction func ResetButtonTapped(_ sender: Any) {
-        for i in GuessViewController.questionList.filter({$0.answeredCorrectly != nil}) {
-            i.answeredCorrectly = nil
-        }
-        
-        score = 0
-        showQuestion(randomNumber(GuessViewController.questionList.filter {$0.answeredCorrectly == nil}.count))
+        resetQuestions()
+        showRandomQuestion()
     }
     
 }

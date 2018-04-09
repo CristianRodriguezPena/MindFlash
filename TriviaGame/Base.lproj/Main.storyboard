@@ -52,7 +52,7 @@
                                     <constraint firstAttribute="width" constant="295" id="Jjd-Kk-ygk"/>
                                     <constraint firstAttribute="height" constant="175" id="ftg-M2-cuQ"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -66,6 +66,9 @@
                                 <state key="normal" title="option1">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="keyPath" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="optionTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dX3-dz-WrR"/>
                                 </connections>

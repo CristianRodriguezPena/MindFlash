@@ -33,6 +33,11 @@ class CreateQuestionViewController: UIViewController {
         if questionTextField.text != "" && optionATextField.text != "" && optionBTextField.text != "" && optionCTextField.text != "" && optionDTextField.text != "" {
             GuessViewController.questionList.append(Question.init(question: questionTextField.text!, options: [optionATextField.text!, optionBTextField.text!, optionCTextField.text!, optionDTextField.text!], correctAnswer: correctOption.selectedSegmentIndex + 1))
                 self.dismiss(animated: true)
+        } else {
+            let alert = UIAlertController(title: "Incomplete", message: "Please fill out all the text boxes to add a question.", preferredStyle: .alert)
+            let action1 = UIAlertAction(title: "Ok...", style: .default)
+            alert.addAction(action1)
+            present(alert, animated: true, completion: nil)
         }
     }
     
