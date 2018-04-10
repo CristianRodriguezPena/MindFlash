@@ -18,6 +18,8 @@ class CreateQuestionViewController: UIViewController {
     @IBOutlet weak var optionDTextField: UITextField!
     @IBOutlet weak var correctOption: UISegmentedControl!
     
+    var newQuesstion :Question!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         cancel.layer.cornerRadius = cancel.frame.height * 0.15
@@ -31,9 +33,10 @@ class CreateQuestionViewController: UIViewController {
     
     @IBAction func addButtonTapped(_ sender: Any) {
         if questionTextField.text != "" && optionATextField.text != "" && optionBTextField.text != "" && optionCTextField.text != "" && optionDTextField.text != "" {
-            GuessViewController.questionList.append(Question.init(question: questionTextField.text!, options: [optionATextField.text!, optionBTextField.text!, optionCTextField.text!, optionDTextField.text!], correctAnswer: correctOption.selectedSegmentIndex + 1))
+            newQuesstion = (Question.init(question: questionTextField.text!, options: [optionATextField.text!, optionBTextField.text!, optionCTextField.text!, optionDTextField.text!], correctAnswer: correctOption.selectedSegmentIndex + 1))
                 self.dismiss(animated: true)
         } else {
+            print("didint work")
             let alert = UIAlertController(title: "Incomplete", message: "Please fill out all the text boxes to add a question.", preferredStyle: .alert)
             let action1 = UIAlertAction(title: "Ok...", style: .default)
             alert.addAction(action1)
@@ -45,4 +48,9 @@ class CreateQuestionViewController: UIViewController {
         self.dismiss(animated: true)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let GuessViewController = segue.destination as? GuessViewController {
+            GuessViewController.questionList.append(newQuesstion)
+        }
+    }
 }

@@ -199,7 +199,8 @@
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="addButtonTapped:" destination="P6i-Qn-HTG" eventType="touchUpInside" id="mQS-e3-HWO"/>
+                                    <action selector="addButtonTapped:" destination="P6i-Qn-HTG" eventType="touchUpInside" id="CfT-3R-hwv"/>
+                                    <segue destination="BYZ-38-t0r" kind="show" id="C6q-YA-FFQ"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Question" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dPG-4Z-WlB">
